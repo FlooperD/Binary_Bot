@@ -136,7 +136,7 @@ def strategy(data):
 
 # Implement your real-time trading logic here
 def trade_logic():
-    global data, iteration_counter
+    global data, iteration_counter, result
 
     iteration_counter = 0
     update_interval = 10 # Update the model every 10 iterations
@@ -209,6 +209,8 @@ def trade_logic():
     
     print(new_signal)
     print(data)
+
+data = fetch_historical_data(symbol, timeframe)
 
 # Run the bot in a loop
 while True:
