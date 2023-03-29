@@ -4,8 +4,8 @@ import time
 import sys
 
 # Your Binance API keys
-api_key = '2sP9lLF3SkkaRMZMg3tnhpH67jd9zh9ekf3pycfi2CYoPePR3xQCaGBzT4gfGpR4'
-api_secret = 'p68DdveGFecovYQONQpFg0H8BlrJLghb7XevT4Ay939amlwXGZRWPJgtB2zX6xBB'
+api_key = 'API Key'
+api_secret = 'API Secret'
 
 current_position = None
 
