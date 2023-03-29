@@ -1,0 +1,67 @@
+import ccxt
+import pandas as pd
+import time
+import sys
+from hmmlearn import hmm
+import numpy as np
+
+# Your Binance API keys
+api_key = '2sP9lLF3SkkaRMZMg3tnhpH67jd9zh9ekf3pycfi2CYoPePR3xQCaGBzT4gfGpR4'
+api_secret = 'p68DdveGFecovYQONQpFg0H8BlrJLghb7XevT4Ay939amlwXGZRWPJgtB2zX6xBB'
+
+current_position = None
+
+# Initialize the Binance API client
+binance = ccxt.binance({
+    'apiKey': api_key,
+    'secret': api_secret,
+    'enableRateLimit': True
+})
+
+def get_min_notional(symbol):
+    markets = binance.load_markets()
+    market = markets[symbol]
+    min_notional = market['limits']['cost']['min']
+    return min_notional
+
+def fetch_wallet_balance():
+    try:
+        balance = binance.fetch_balance()
+        return balance
+    except Exception as e:
+        print(f"Error fetching balance: {e}")
+        return None
+
+# Fetch wallet balance
+wallet_balance = fetch_wallet_balance()
+
+if wallet_balance:
+    # Print the available funds
+    print(f"Available wallet balance:")
+    for currency, balance in wallet_balance['free'].items():
+        if balance > 0:
+            print(f"{currency}: {balance}")
+
+    # Fetch historical data
+    symbol = 'ETH/ZAR'
+    timeframe = '5m'
+
+    # Get the minimum notational value for the selected symbol
+    min_notional = get_min_notional(symbol)
+
+    # Prompt the user for the portion of funds to allocate
+    amount = float(input("How much do you want to use: "))
+
+    # Validate the input and check if the allocated amount is greater than the minimum notational value
+    while True:
+        if 0 <= amount <= 2000 and amount >= min_notional:
+            print(f"Allocating R{amount} of available funds for trading.")
+            break
+        else:
+            print(f"Invalid input or the allocated amount is less than the minimum notational value of R{min_notional}.")
+            amount = float(input("Please enter a new amount to use: "))
+else:
+    print("Unable to fetch wallet balance.")
+
+# Function to fetch historical data
+# ... (rest of the code remains unchanged)

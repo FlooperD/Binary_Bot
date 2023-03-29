@@ -65,14 +65,14 @@ def fetch_historical_data(symbol, timeframe, since=None):
 
 # Fetch historical data
 symbol = 'ETH/ZAR'
-timeframe = '1s'
+timeframe = '5m'
 data = fetch_historical_data(symbol, timeframe)
 print(data)
 
 def strategy(data):
     # Example: Simple moving average crossover strategy
-    SMA_short = data['close'].rolling(window=10).mean()
-    SMA_long = data['close'].rolling(window=30).mean()
+    SMA_short = data['close'].rolling(window=50).mean()
+    SMA_long = data['close'].rolling(window=200).mean()
     signal = (SMA_short > SMA_long)
     signal.fillna(False, inplace=True)  # Fill NaN values with False
 
@@ -139,4 +139,4 @@ def trade_logic():
 # Run the bot in a loop
 while True:
     trade_logic()
-    time.sleep(180)  
+    time.sleep(60)  
