@@ -64,10 +64,6 @@ else:
     print("Unable to fetch wallet balance.")
 
 # Function to fetch historical data
-# ... (rest of the code remains unchanged)
-
-
-# Function to fetch historical data
 def fetch_historical_data(symbol, timeframe, since=None):
     ohlcv_data = []
     while True:
