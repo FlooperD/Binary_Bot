@@ -39,13 +39,13 @@ warnings.filterwarnings('ignore', category=UserWarning, module='statsmodels')
 warnings.filterwarnings("ignore")
 
 #Binance API keys
-api_key = 'tu41sALIg5JpPX1Ejbg8tPDvZugVrNFer8F5VMkkSaowZxlg0Y5AW1bNA1j5Ym09'
-api_secret = 'xcndFpLdgWffXIpLVVB8QkkKV76ua7cVJjsmBYO9p7MZrOJxA5gIJl519ka9kmKl'
+api_key = 'API KEY'
+api_secret = 'API SECRET KEY'
 
 #Telegram API
-API_TOKEN = '5500076996:AAHC1JSDHgJVDhDqTH6LbIJt783gGZM2HSs'
-CHAT_ID = '5044502086'
-message = "Trading started"
+API_TOKEN = 'API TOKEN'
+CHAT_ID = 'CHAT_ID'
+message = "Whatever"
 
 csv_file_path = 'historical_data.csv'
 
