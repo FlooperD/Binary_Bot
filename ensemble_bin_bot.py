@@ -39,8 +39,8 @@ warnings.filterwarnings('ignore', category=UserWarning, module='statsmodels')
 warnings.filterwarnings("ignore")
 
 #Binance API keys
-api_key = 'tu41sALIg5JpPX1Ejbg8tPDvZugVrNFer8F5VMkkSaowZxlg0Y5AW1bNA1j5Ym09'
-api_secret = 'xcndFpLdgWffXIpLVVB8QkkKV76ua7cVJjsmBYO9p7MZrOJxA5gIJl519ka9kmKl'
+api_key = 'Binance API'
+api_secret = 'Binance Secret Key'
 
 #Telegram API
 API_TOKEN = '5500076996:AAHC1JSDHgJVDhDqTH6LbIJt783gGZM2HSs'
