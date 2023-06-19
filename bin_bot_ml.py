@@ -5,6 +5,8 @@ import sys
 from hmmlearn import hmm
 import numpy as np
 
+# All modules tested with Python 3.10.4 
+
 # Your Binance API keys
 api_key = 'API Key'
 api_secret = 'API Secret'
