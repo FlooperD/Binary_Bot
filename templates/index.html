@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+<head lang="en" data-bs-theme="dark">
+    <title>Live Price Chart</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Bootstrap demo</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-9ndCyUaIbzAi2FUVXJi0CjmCapSmO7SnpJef0486qhLnuZ2cdeRhO02iuK6FUUVM" crossorigin="anonymous">
+</head>
+<body>
+    <div id="plot"></div>
+    <script>
+        var updateInterval = 3000;  // Update interval in milliseconds
+        var timestamps = [];
+        var closePrices = [];
+
+        // Function to update the plot with new data
+        function updatePlot() {
+            $.getJSON('/fetch_data', function(data) {
+                timestamps = data.timestamps;
+                closePrices = data.close_prices;
+
+                // Update the plot
+                var trace = {
+                    x: timestamps,
+                    y: closePrices,
+                    mode: 'lines',
+                    type: 'scatter'
+                };
+                var layout = {
+                    title: 'Price Chart',
+                    xaxis: {
+                        title: 'Time',
+                        type: 'date'
+                    },
+                    yaxis: {
+                        title: 'Price'
+                    }
+                };
+                Plotly.newPlot('plot', [trace], layout);
+            });
+        }
+
+        // Initial plot update
+        updatePlot();
+
+        // Periodically update the plot
+        setInterval(updatePlot, updateInterval);
+    </script>
+</body>
+</head>
