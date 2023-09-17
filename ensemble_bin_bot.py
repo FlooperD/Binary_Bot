@@ -39,13 +39,13 @@ warnings.filterwarnings('ignore', category=UserWarning, module='statsmodels')
 warnings.filterwarnings("ignore")
 
 #Binance API keys
-api_key = 'API KEY'
-api_secret = 'API SECRET KEY'
+api_key = 'dXOWUeDdo4TJNuITBPfOLTfCgZvQiW8vn6W3M8iMxq14BUzvKBGpUdzSYDVeBy4x'
+api_secret = '3fCsu4Te6ABCZXlDIJZx3Xt64E5X9S1uRFYowLwTDsXyIJ8wCwRMkrLg0wRFmWv1'
 
 #Telegram API
-API_TOKEN = 'API TOKEN'
-CHAT_ID = 'CHAT_ID'
-message = "Whatever"
+API_TOKEN = '5500076996:AAHC1JSDHgJVDhDqTH6LbIJt783gGZM2HSs'
+CHAT_ID = '5044502086'
+message = "Trading started"
 
 csv_file_path = 'historical_data.csv'
 
@@ -318,11 +318,11 @@ def save_and_send_graph_image(close_prices, arima_predictions, lstm_predictions,
 
     img_path = "predictions.png"
     plt.savefig(img_path)
-    plt.show()
-    plt.close()
+    # plt.show()
+    # plt.close()
 
     # Send the graph image via Telegram
-    # send_telegram_image(img_path)
+    send_telegram_image(img_path)
 
     # Print the data and send it via Telegram
     data_text = f"""Actual Prices: {close_prices}
@@ -581,6 +581,9 @@ def execute_trade(signal, base_currency, quote_currency, amount, initial=False):
     global current_position
     trading_currency = base_currency if current_position == "NONE" else quote_currency
     balance = fetch_wallet_balance(trading_currency)
+    new_data = pd.read_csv("historical_data.csv")
+    print(new_data)
+    print("\n[+] Last entry in df" + new_data['close'].iloc[-1])
 
     if balance is None:
         print("Error: Unable to fetch wallet balance.")
@@ -593,7 +596,7 @@ def execute_trade(signal, base_currency, quote_currency, amount, initial=False):
     symbol = f"{base_currency}{quote_currency}"
     symbol_info = client.get_symbol_info(symbol)
     min_qty, min_notional_value = get_min_lot_size(symbol_info)
-
+    print("[+] Lot Size = ")
     if min_qty is None:
         print("[+]Error: Unable to fetch lot size.")
         return
@@ -609,7 +612,7 @@ def execute_trade(signal, base_currency, quote_currency, amount, initial=False):
         print("[+]Buying...")
         if notional_value >= min_notional_value:
             try:
-                binance.create_market_buy_order(f"{base_currency}/{quote_currency}", amount)
+                ccxt.binance.create_market_buy_order(symbol, amount/ new_data['close'].iloc[-1])
                 current_position = "LONG"
                 print("Bought", base_currency, "using", quote_currency)
                 send_telegram_message(f"Bought {amount} of {base_currency} using {quote_currency}")
@@ -619,13 +622,13 @@ def execute_trade(signal, base_currency, quote_currency, amount, initial=False):
             print("[+]Trade amount does not meet the minimum notional value.")
 
     elif signal == "SELL" and current_position == "LONG":
-        amount = balance[base_currency]['free']
+        amount_sell = balance[base_currency]['free']
         amount = math.floor(amount / min_qty) * min_qty
         amount = round(amount, precision)
 
         print("[+]Selling...")
         try:
-            binance.create_market_sell_order(f"{base_currency}/{quote_currency}", amount)
+            ccxt.binance.create_market_sell_order(symbol, amount_sell)
             current_position = "NONE"
             print("Sold", base_currency, "for", quote_currency)
             send_telegram_message(f"Sold {amount} of {base_currency} for {quote_currency}")
@@ -677,6 +680,7 @@ def main(base_currency, quote_currency):
             print(data)
             data.to_csv("historical_data.csv", mode='a', index=False)
 
+
         csv_file = "verify_historical_data.csv"
         header = not os.path.exists(csv_file)  # Add header if file doesn't exist
         data.to_csv(csv_file, mode='a', index=False, header=header)
@@ -723,7 +727,7 @@ def main(base_currency, quote_currency):
                 print(f"Holding position. No trade executed.")
                 
         print("\n[+] Sleeping...")
-        time.sleep(300)
+        time.sleep(3)
 
 if __name__ == "__main__":
     custom_base_currency = input("Enter the base currency (e.g. BTC): ").upper()

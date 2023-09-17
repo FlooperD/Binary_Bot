@@ -3,9 +3,9 @@ import pandas as pd
 import time
 import sys
 
-# Your Binance API keys
-api_key = 'API Key'
-api_secret = 'API Secret'
+#Binance API keys
+api_key = 'dXOWUeDdo4TJNuITBPfOLTfCgZvQiW8vn6W3M8iMxq14BUzvKBGpUdzSYDVeBy4x'
+api_secret = '3fCsu4Te6ABCZXlDIJZx3Xt64E5X9S1uRFYowLwTDsXyIJ8wCwRMkrLg0wRFmWv1'
 
 current_position = None
 
@@ -64,7 +64,7 @@ def fetch_historical_data(symbol, timeframe, since=None):
     return pd.DataFrame(ohlcv_data, columns=['timestamp', 'open', 'high', 'low', 'close', 'volume'])
 
 # Fetch historical data
-symbol = 'ETH/ZAR'
+symbol = 'USDT/ZAR'
 timeframe = '5m'
 data = fetch_historical_data(symbol, timeframe)
 print(data)
