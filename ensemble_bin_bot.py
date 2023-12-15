@@ -727,7 +727,7 @@ def main(base_currency, quote_currency):
                 print(f"Holding position. No trade executed.")
                 
         print("\n[+] Sleeping...")
-        time.sleep(3)
+        time.sleep(300)
 
 if __name__ == "__main__":
     custom_base_currency = input("Enter the base currency (e.g. BTC): ").upper()
